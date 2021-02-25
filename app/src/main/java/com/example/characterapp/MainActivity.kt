@@ -298,6 +298,5 @@ if (ContextCompat.checkSelfPermission(this,
                 startActivityForResult(intentCamera, FILECHOOSER_LOLLIPOP_REQ_CODE)
             }
         }
-
     }
 }

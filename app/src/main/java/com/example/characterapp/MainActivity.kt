@@ -3,6 +3,7 @@ package com.example.characterapp
 import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -51,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         mWebSettings = webview.settings
         mWebSettings.javaScriptEnabled = true // 자바스크립트 허용
         mWebSettings.domStorageEnabled = true // 로컬저장소 허용
+        mWebSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
+        webview.addJavascriptInterface(WebAppInterface(this),"Android")
         webview.apply {
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
@@ -152,17 +156,23 @@ class MainActivity : AppCompatActivity() {
     //액티비티가 종료될 때 결과를 받고 파일을 전송할 때 사용
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("DSfasdf", "onActivityResult: ${resultCode}")
+
         if(requestCode== FILECHOOSER_LOLLIPOP_REQ_CODE){
-            if(data==null){
-                val intent = Intent()
-                intent.data = cameraImageUri
-                Log.d("onActivityResult",cameraImageUri.toString())
-                filePathCallbackLollipop?.onReceiveValue(cameraImageUri?.let { arrayOf<Uri>(it) });
+            if(resultCode ==0){
+                cameraImageUri = null
+                filePathCallbackLollipop?.onReceiveValue(cameraImageUri?.let { arrayOf<Uri>(it) })
             }else{
-                filePathCallbackLollipop?.onReceiveValue(arrayOf<Uri>(data?.data!!))
+                if(data==null){
+                    val intent = Intent()
+                    intent.data = cameraImageUri
+                    Log.d("onActivityResult",cameraImageUri.toString())
+                    filePathCallbackLollipop?.onReceiveValue(cameraImageUri?.let { arrayOf<Uri>(it) });
+                }else{
+                    filePathCallbackLollipop?.onReceiveValue(arrayOf<Uri>(data?.data!!))
+                }
             }
         } else {
-
             if (filePathCallbackLollipop != null)
             {   //  resultCode에 RESULT_OK가 들어오지 않으면 null 처리하지 한다.(이렇게 하지 않으면 다음부터 input 태그를 클릭해도 반응하지 않음)
                 filePathCallbackLollipop?.onReceiveValue(null);
@@ -203,6 +213,7 @@ class MainActivity : AppCompatActivity() {
                 photoFile?.also{
                     val photoURI : Uri = FileProvider.getUriForFile(
                         applicationContext,
+
                         "$strpa.fileprovider",
                         it
                     )
@@ -219,5 +230,14 @@ class MainActivity : AppCompatActivity() {
         val chooserIntent = Intent.createChooser(pickIntent,pickTitle)
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,arrayOf<Parcelable>(intentCamera))
         startActivityForResult(chooserIntent, FILECHOOSER_LOLLIPOP_REQ_CODE)
+    }
+
+    class WebAppInterface(private val mContext : Context){
+
+        @JavascriptInterface
+        fun intentActivity(msg : String){
+            Log.d("testMsg", msg)
+            mContext.startActivity(Intent(mContext,ResultActivity::class.java).putExtra("msg",msg))
+        }
     }
 }

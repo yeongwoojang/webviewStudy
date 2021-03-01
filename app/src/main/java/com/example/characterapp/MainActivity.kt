@@ -239,5 +239,10 @@ class MainActivity : AppCompatActivity() {
             Log.d("testMsg", msg)
             mContext.startActivity(Intent(mContext,ResultActivity::class.java).putExtra("msg",msg))
         }
+
+        @JavascriptInterface
+        fun loading(){
+            mContext.startActivity(Intent(mContext,LoadingActivity::class.java))
+        }
     }
 }

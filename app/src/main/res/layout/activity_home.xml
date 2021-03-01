@@ -6,19 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="나와 닮은 축구선수 찾기"
-        android:textColor="@android:color/black"
-        android:textSize="30dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:text="닮은 남자연예인 찾기"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
         android:gravity="center"
+        android:background="@drawable/form_round_img"
+        android:layout_centerInParent="true"
         />
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="시작하기"
-        android:background="@android:color/holo_orange_dark"
-        android:layout_centerInParent="true"
+        android:textSize="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/form_round_btn"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
         />
 </RelativeLayout>

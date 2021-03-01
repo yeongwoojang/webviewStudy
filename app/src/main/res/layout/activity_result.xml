@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ResultActivity">
-
-    <ImageView
+    <TextView
+        android:id="@+id/result_txt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/result_image"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/form_round_btn"
+        android:textSize="20dp"
+        android:text="결과"
+        android:textColor="@android:color/white"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
         />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/result_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/result_txt"
+        android:adjustViewBounds="true"
+        android:background="@color/Indigo400"
+        />
+
+
+</RelativeLayout>

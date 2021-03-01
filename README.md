@@ -5,7 +5,7 @@
 
 #### 공부한 내용 : 웹뷰와 안드로이드간의 통신
 
-#### 사용기술 : Teachable Machine, android(kotlin), nodejs, javascript, html
+#### 사용기술 : Teachable Machine, android(kotlin), Android camera permission, nodejs, javascript, html
 
 #### 작품 설명 : 28명의 연예인 사진을 모아서 Teachable Machine 사이트에서 학습시킨후 얻은 모델을 기반으로 사용자의 사진과 비교해 어떤 연예인과 가장 닮았는지 테스트 해보는 앱입니다.
 

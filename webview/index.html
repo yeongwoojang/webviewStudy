@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+</head>
+
+
+<body>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <div class="wrap_upload container pt-5">
+        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" id="bizFile"/>
+        <label for="bizFile" type="button" class="btn btn-outline-info btn-lg btn-block sfileBtn">클릭 하고 사진올리기</label>
+    </div>
+   
+    <div for="bizFile" class="container">
+        <img class="file-upload-image img-fluid" id="cool-img" src="" alt="" style="width: 100%" height="50%" />
+    </div>
+    <div class="container mt-2">
+        <button class="btn_result btn btn-info invisible btn-lg btn-block" type=" button" onclick="predict()">결과보기</button>
+    </div>
+    <div id="label-container"></div>
+    <br>
+    <div id="cont"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+
+    <script type="text/javascript">
+        const URL = "https://teachablemachine.withgoogle.com/models/nHHoCA0iE/";
+        let model, labelContainer, maxPredictions;
+        let modelUpload;
+
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+
+
+
+        // run the webcam image through the image model
+        async function predict() {
+            Android.loading();
+            await init();
+            let image = document.getElementById('cool-img');
+            const prediction = await model.predict(image, false);
+            let array = new Array();
+            
+            for (let i = 0; i < maxPredictions; i++) {
+                array.push(parseFloat(prediction[i].probability.toFixed(2)));
+            }
+            // console.log(Math.max.apply(null, a));
+            for (let i = 0; i < maxPredictions; i++) {
+                if (parseFloat(prediction[i].probability.toFixed(2)) === Math.max.apply(null, array)) {
+                    // labelContainer.innerHTML = prediction[i].className + '입니다.';
+                    Android.intentActivity(prediction[i].className)
+                    break;
+                }
+            }
+           
+        }
+        // init();
+    </script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+                    $('.image-title').html(input.files[0].name);
+                    document.querySelector('.btn_result').className = "btn_result btn btn-info show btn-lg btn-block";
+                    document.querySelector('.btn_result').disabled = false; 
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }else{
+                if(!document.querySelector('#cool-img')){
+                    document.querySelector('.btn_result').className = "btn_result btn btn-info invisible btn-lg btn-block";
+                }
+
+            }
+        }
+        // document.getElementById('bizFile').addEventListener('change', function () {
+        //     var filename = document.getElementById('fileName');
+        //     if (this.files[0] == undefined) {
+        //         filename.innerText = '선택된 파일없음';
+        //         return;
+        //     }
+        //     filename.innerText = this.files[0].name;
+           
+        // });
+    </script>
+</body>
+
+</html>

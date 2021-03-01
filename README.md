@@ -12,5 +12,4 @@
 #### 문제점 : 주 목적이 안드로이드 웹뷰를 공부해보는 것이기 때문에 이미지인식 모델은 간단하게 만들었습니다. 따라서 사진 데이터의 숫자가 많지 않아 정확도가 떨어집니다. 
  
  
-#### 시연영상 : https://studio.youtube.com/video/hS-HAe6g4II/edit
-
+#### 시연영상 : https://youtu.be/hS-HAe6g4II
